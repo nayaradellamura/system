@@ -1,0 +1,53 @@
+<!doctype html>
+<html th:replace="~{base :: layout (~{::title}, ~{::main})}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>System</title>
+</head>
+<body>
+<main class="container">
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Lista de Proprietários</h2>
+        </div>
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <a th:href="@{/create}" class="btn btn-primary">Novo Proprietário</a>
+        </div>
+    </div>
+    </div>
+
+
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop para exibir a lista de proprietários -->
+        <tr th:each="proprietario : ${proprietarios}">
+            <td th:text="${proprietario.id}"></td>
+            <td th:text="${proprietario.nome}"></td>
+            <td th:text="${proprietario.cpf}"></td>
+            <td>
+                <a th:href="@{/editar/{id}(id=${proprietario.id})}" class="btn btn-sm btn-secondary">Editar</a>
+                <a th:href="@{/excluir/{id}(id=${proprietario.id})}" class="btn btn-sm btn-danger">Excluir</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Caso a lista esteja vazia -->
+    <p th:if="${proprietarios.empty}">Nenhum proprietário cadastrado</p>
+
+
+</main>
+</body>
+</html>
