@@ -44,6 +44,11 @@
         </div>
 
         <div class="mb-3">
+            <label for="cep" class="form-label">CEP</label>
+            <input type="text" class="form-control" id="cep" onblur="buscaEndereco()" th:field="*{cep}" required>
+        </div>
+
+        <div class="mb-3">
             <label for="endereco" class="form-label">Endereço</label>
             <input type="text" class="form-control" id="endereco" th:field="*{endereco}" required>
         </div>
@@ -68,18 +73,30 @@
             <input type="text" class="form-control" id="estado" th:field="*{estado}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="pais" class="form-label">País</label>
-            <input type="text" class="form-control" id="pais" th:field="*{pais}" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="cep" class="form-label">CEP</label>
-            <input type="text" class="form-control" id="cep" th:field="*{cep}" required>
-        </div>
-
         <button type="submit" class="btn btn-primary">Salvar</button>
     </form>
 </main>
 </body>
 </html>
+
+<script>
+    function buscaEndereco() {
+        const cep = document.getElementById("cep").value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+        if (cep.length === 8) {
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.erro) {
+                        alert("CEP não encontrado!");
+                    } else {
+                        document.getElementById("endereco").value = data.logradouro || '';
+                        document.getElementById("bairro").value = data.bairro || '';
+                        document.getElementById("cidade").value = data.localidade || '';
+                        document.getElementById("estado").value = data.uf || '';
+                    }
+                })
+                .catch(error => console.error("Erro na busca do CEP:", error));
+        }
+    }
+</script>
