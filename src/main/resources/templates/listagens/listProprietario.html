@@ -51,3 +51,16 @@
 </main>
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Seleciona todas as células que contêm CPF
+        document.querySelectorAll("td:nth-child(3)").forEach(function (td) {
+            let cpf = td.innerText.replace(/\D/g, ''); // Remove caracteres não numéricos
+            if (cpf.length === 11) {
+                cpf = cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4");
+                td.innerText = cpf; // Atualiza a célula com a formatação
+            }
+        });
+    });
+</script>
